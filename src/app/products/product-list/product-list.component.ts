@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { Store, select } from '@ngrx/store';
-import { bufferToggle } from 'rxjs/operators';
+
 
 @Component({
   selector: 'pm-product-list',
@@ -24,7 +24,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   selectedProduct: Product | null;
   sub: Subscription;
 
-  constructor(private productService: ProductService, private store: Store<any>) { }
+  constructor(private productService: ProductService, public store: Store<any>) { }
 
   ngOnInit(): void {
     this.sub = this.productService.selectedProductChanges$.subscribe(
@@ -37,11 +37,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     });
     this.store.pipe(select('products')).subscribe(product => {
       if (product) {
-        debugger
         this.displayCode = product.showProductCode;
-
       }
-    })
+    });
   }
 
   ngOnDestroy(): void {
@@ -50,7 +48,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   checkChanged(value: boolean): void {
     this.store.dispatch({ type: 'TOGGLE_PRODUCT_CODE', payload: value });
-    this.displayCode = value;
+    // this.displayCode = value;
   }
 
   newProduct(): void {

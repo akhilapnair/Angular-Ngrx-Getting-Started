@@ -13,10 +13,10 @@ import { ShellComponent } from './home/shell.component';
 import { MenuComponent } from './home/menu.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { PageNotFoundComponent } from './home/page-not-found.component';
-
 /* Feature Modules */
 import { UserModule } from './user/user.module';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 @NgModule({
   imports: [
     BrowserModule,
@@ -24,7 +24,8 @@ import { StoreModule } from '@ngrx/store';
     HttpClientInMemoryWebApiModule.forRoot(ProductData),
     UserModule,
     AppRoutingModule,
-    StoreModule.forRoot({})
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({ maxAge: 25 })
   ],
   declarations: [
     AppComponent,

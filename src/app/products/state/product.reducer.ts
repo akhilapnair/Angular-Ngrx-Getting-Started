@@ -10,9 +10,6 @@ export interface ProductState {
 export function reducer(state, action) {
     switch (action.type) {
         case 'TOGGLE_PRODUCT_CODE':
-            debugger
-            console.log('exisatine stste', state);
-
             return {
                 ...state,
                 showProductCode: action.payload
