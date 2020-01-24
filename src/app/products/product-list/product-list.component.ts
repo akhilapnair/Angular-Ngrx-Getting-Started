@@ -6,6 +6,7 @@ import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { Store, select } from '@ngrx/store';
 import * as fromRoot from '../../state/app.state';
+import * as fromProdut from '../state/product.reducer';
 
 @Component({
   selector: 'pm-product-list',
@@ -16,7 +17,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   pageTitle = 'Products';
   errorMessage: string;
 
-  displayCode: boolean;
+  displayCode: any;
 
   products: Product[];
 
@@ -35,10 +36,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       next: (products: Product[]) => this.products = products,
       error: (err: any) => this.errorMessage = err.error
     });
-    this.store.pipe(select('products')).subscribe(product => {
-      if (product) {
-        this.displayCode = product.showProductCode;
-      }
+    this.store.pipe(select(fromProdut.getShowProductCode)).subscribe(showProductCode => {
+      this.displayCode = showProductCode;
     });
   }
 
@@ -48,7 +47,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   checkChanged(value: boolean): void {
     this.store.dispatch({ type: 'TOGGLE_PRODUCT_CODE', payload: value });
-    // this.displayCode = value;
   }
 
   newProduct(): void {
