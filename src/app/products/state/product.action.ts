@@ -15,15 +15,17 @@ export class ToggleProductCode implements Action {
 }
 export class SetCurrentProduct implements Action {
     readonly type = ProductActionTypes.SetCurrentProduct;
+
     constructor(public payload: Product) { }
 }
 export class ClearCurrentProduct implements Action {
-    readonly type = ProductActionTypes.SetCurrentProduct;
+    readonly type = ProductActionTypes.ClearCurrentProduct;
 }
 export class InitilizeCurrentProduct implements Action {
-    readonly type = ProductActionTypes.SetCurrentProduct;
+    readonly type = ProductActionTypes.InitilizeCurrentProduct;
 }
-export type ProductActions = ToggleProductCode
+
+export type ProductActions = ClearCurrentProduct
     | SetCurrentProduct
-    | ClearCurrentProduct
-    | InitilizeCurrentProduct
+    | ToggleProductCode
+    | InitilizeCurrentProduct;

@@ -31,6 +31,18 @@ export function reducer(state: ProductState = initialState, action: ProductActio
                 ...state,
                 showProductCode: action.payload,
             };
+
+        case ProductActionTypes.SetCurrentProduct:
+            return {
+                ...state,
+                currentProduct: { ...action.payload }
+            };
+
+        case ProductActionTypes.ClearCurrentProduct:
+            return {
+                ...state,
+                currentProduct: null
+            }
         default: return state;
     }
 

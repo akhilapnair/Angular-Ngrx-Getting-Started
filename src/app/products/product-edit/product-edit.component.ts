@@ -8,6 +8,10 @@ import { ProductService } from '../product.service';
 import { GenericValidator } from '../../shared/generic-validator';
 import { NumberValidators } from '../../shared/number.validator';
 
+import { Store, select } from '@ngrx/store';
+import * as fromRoot from '../../state/app.state';
+import * as fromProdut from '../state/product.reducer';
+import * as productAction from '../state/product.action';
 @Component({
   selector: 'pm-product-edit',
   templateUrl: './product-edit.component.html',
@@ -27,7 +31,8 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private genericValidator: GenericValidator;
 
   constructor(private fb: FormBuilder,
-              private productService: ProductService) {
+    private productService: ProductService,
+    private store: Store<fromProdut.State>) {
 
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
@@ -54,17 +59,15 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     // Define the form group
     this.productForm = this.fb.group({
       productName: ['', [Validators.required,
-                         Validators.minLength(3),
-                         Validators.maxLength(50)]],
+      Validators.minLength(3),
+      Validators.maxLength(50)]],
       productCode: ['', Validators.required],
       starRating: ['', NumberValidators.range(1, 5)],
       description: ''
     });
 
     // Watch for changes to the currently selected product
-    this.sub = this.productService.selectedProductChanges$.subscribe(
-      selectedProduct => this.displayProduct(selectedProduct)
-    );
+    this.store.pipe(select(fromProdut.getCurrentProduct)).subscribe(currentproduct => this.displayProduct(currentproduct));
 
     // Watch for value changes
     this.productForm.valueChanges.subscribe(
@@ -73,7 +76,6 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   // Also validate on blur
