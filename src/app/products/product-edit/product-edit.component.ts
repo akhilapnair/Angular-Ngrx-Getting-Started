@@ -66,7 +66,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
       description: ''
     });
 
-    // Watch for changes to the currently selected product
+    // unsub
     this.store.pipe(select(fromProdut.getCurrentProduct)).subscribe(currentproduct => this.displayProduct(currentproduct));
 
     // Watch for value changes
@@ -119,7 +119,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     if (this.product && this.product.id) {
       if (confirm(`Really delete the product: ${this.product.productName}?`)) {
         this.productService.deleteProduct(this.product.id).subscribe({
-          next: () => this.productService.changeSelectedProduct(null),
+          next: () => this.store.dispatch(new productAction.ClearCurrentProduct()),
           error: err => this.errorMessage = err.error
         });
       }

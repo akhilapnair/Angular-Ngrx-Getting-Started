@@ -39,6 +39,7 @@ export function reducer(state: ProductState = initialState, action: ProductActio
             };
 
         case ProductActionTypes.ClearCurrentProduct:
+            debugger;
             return {
                 ...state,
                 currentProduct: null
